@@ -1,0 +1,4 @@
+- name: add ssh key for pmtungwa
+  authorized_key:
+    user: pmtungwa
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFCrWCSBw8XxHN+g9r+ySgKeOQ4QW+2L3/lG6IUNHQf pmtungwa default"
