@@ -1,0 +1,1000 @@
+  234  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  235  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  236  uname -msr
+  237  jupyter notebook
+  238  sudo apt-get update && sudo apt-get upgrade
+  239  ping 10.0.0.1
+  240  sudo apt-get update && sudo apt-get upgrade
+  241  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  242  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  243  uname -msr
+  244  jupyter notebook
+  245  ping 10.0.0.1
+  246  ifconfig 
+  247  ping 10.0.0.1
+  248  ping 10.0.0.1 -t
+  249  ping 10.0.0.1 
+  250  ping 10.0.0.4
+  251  ifconfig
+  252  ping 192.168.0.90
+  253  ifconfig
+  254  ping 10.0.5.1
+  255  ping 10.0.5.10
+  256  ping 10.0.0.1
+  257  ping 10.0.0.3
+  258  ping 10.0.0.4
+  259  182.168.0.4
+  260  ping 182.168.0.4
+  261  ifconfig
+  262  ifconfig
+  263  reboot
+  264  sudo apt-get update && sudo apt-get upgrade
+  265  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  266  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  267  uname -msr
+  268  jupyter notebook
+  269  sudo apt-get update && sudo apt-get upgrade
+  270  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  271  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  272  uname -msr
+  273  jupyter notebook
+  274  ifconfig
+  275  sudo apt install virtualbox-dkms
+  276  sudo apt autoremove
+  277  sudo apt-get update && sudo apt-get upgrade
+  278  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  279  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  280  uname -msr
+  281  sudo apt-get install virtualbox-dkms
+  282  sudo apt-get install build-essential module-assistant
+  283  sudo m-a prepare
+  284  sudo /etc/init.d/vboxdrv setup
+  285  sudo apt-get install virtualbox-dkms
+  286  sudo apt autoremove
+  287  dkms status
+  288  sudo modprobe vboxdrv'
+  289  sudo apt update
+  290  sudo apt install --reinstall linux-headers-$(uname -r) virtualbox-dkms dkms
+  291  sudo apt-get update && sudo apt-get upgrade
+  292  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  293  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  294  uname -msr
+  295  jupyter notebook
+  296  $(uname -r)
+  297  uname -msr
+  298  sudo apt-get update && sudo apt-get upgrade
+  299  ifconfig
+  300  sudo apt-get update && sudo apt-get upgrade
+  301  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  302  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  303  uname -msr
+  304  jupyter notebook
+  305  sudo apt-get update && sudo apt-get upgrade
+  306  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  307  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  308  uname -msr
+  309  jupyter notebook
+  310  sudo apt-get update && sudo apt-get upgrade
+  311  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  312  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  313  uname -msr
+  314  jupyter notebook
+  315  sudo apt-get update && sudo apt-get upgrade
+  316  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  317  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  318  uname -msr
+  319  jupyter notebook
+  320  sudo apt-get update && sudo apt-get upgrade
+  321  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  322  sudo apt-get update && sudo apt-get upgrade
+  323  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  324  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  325  uname -msr
+  326  jupyter notebook
+  327  sudo apt-get update && sudo apt-get upgrade
+  328  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  329  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  330  uname -msr
+  331  jupyter notebook
+  332  sudo apt-get update && sudo apt-get upgrade
+  333  sudo pip3 install -U scikit-learn scipy matplotlib
+  334  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  335  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  336  uname -msr
+  337  jupyter notebook
+  338  sudo apt-get update && sudo apt-get upgrade
+  339  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  340  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  341  uname -msr
+  342  jupyter notebook
+  343  sudo apt-get update && sudo apt-get upgrade
+  344  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  345  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  346  uname -msr
+  347  sudo apt-get update && sudo apt-get upgrade
+  348  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  349  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  350  uname -msr
+  351  sudo apt-get update && sudo apt-get upgrade
+  352  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  353  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  354  uname -msr
+  355  jupyter notebook
+  356  sudo apt-get update && sudo apt-get upgrade
+  357  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  358  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  359  uname -msr
+  360  jupyter notebook
+  361  sudo apt-get install hplip hplip-gui
+  362  sudo apt-get update && sudo apt-get upgrade
+  363  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  364  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  365  uname -msr
+  366  jupyter notebook
+  367  sudo apt-get update && sudo apt-get upgrade
+  368  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  369  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  370  uname -msr
+  371  jupyter notebook
+  372  ifconfig
+  373  ifconfig
+  374  sudo apt-get update && sudo apt-get upgrade
+  375  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  376  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  377  uname -msr
+  378  jupyter notebookC
+  379  jupyter notebook
+  380  firefox -safe-mode
+  381  sudo apt-get update && sudo apt-get upgrade
+  382  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  383  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  384  uname -msr
+  385  jupyter notebook
+  386  firefox -safe-mode
+  387  jupyter notebook
+  388  firefox -safe-mode
+  389  ifconfig
+  390  ifconfig
+  391  firefox -safe-mode
+  392  sudo apt-get update && sudo apt-get upgrade
+  393  t https://nchc.dl.sourceforge.net/project/hplip/hplip/3.20.11/hplip-3.20.11.run
+  394  wget https://nchc.dl.sourceforge.net/project/hplip/hplip/3.20.11/hplip-3.20.11.run
+  395  sudo apt-get install --assume-yes python-pyqt5
+  396  sudo apt-get purge --auto-remove gqrx
+  397  sudo apt-get purge --auto-remove gqrx-sdr
+  398  sudo apt-get purge --auto-remove libgnuradio*
+  399  sudo add-apt-repository -y ppa:bladerf/bladerf
+  400  sudo apt-get purge --auto-remove gqrx
+  401  sudo apt-get purge --auto-remove gqrx-sdr
+  402  sudo apt-get purge --auto-remove libgnuradio*
+  403  sudo add-apt-repository -y ppa:bladerf/bladerf
+  404  sudo apt-get update && sudo apt-get upgrade
+  405  sudo add-apt-repository -y ppa:myriadrf/drivers
+  406  sudo add-apt-repository -y ppa:myriadrf/gnuradio
+  407  sudo add-apt-repository -y ppa:gqrx/gqrx-sdr
+  408  sudo apt-get update && sudo apt-get upgrade
+  409  sudo apt-get install gqrx-sdr
+  410  sudo apt-get install libvolk1-bin
+  411  sudo apt-get install libvolk2-bin
+  412  volk_profile
+  413  sudo apt-get install rtl-sdr
+  414  gqrx
+  415  chmod -R 755 hplip-3.20.11.run
+  416  ./hplip-3.20.11.run
+  417  wget https://nchc.dl.sourceforge.net/project/hplip/hplip/3.20.11/hplip-3.20.11.run
+  418  chmod -R 755 hplip-3.20.11.run
+  419  ./hplip-3.20.11.run
+  420  chmod -R 755 hplip-3.20.11.run
+  421  ./hplip-3.20.11.run
+  422  wget https://nchc.dl.sourceforge.net/project/hplip/hplip/3.20.11/hplip-3.20.11.run
+  423  chmod -R 755 hplip-3.20.11.run
+  424  ./hplip-3.20.11.run
+  425  sudo apt-get install libcanberra-gtk3-module
+  426  sudo apt autoremove
+  427  sudo apt-get install libcanberra-gtk3-module
+  428  ./hplip-3.20.11.run
+  429  sudo apt install libcanberra-gtk-module
+  430  ./hplip-3.20.11.run
+  431  sudo apt-get install --assume-yes python-pyqt5
+  432  sudo pip3 install pyqt5
+  433  sudo apt-get install python3-pyqt5
+  434  sudo apt install software-properties-common
+  435  sudo apt-get update && sudo apt-get upgrade
+  436  sudo apt-get install python-pyqt5
+  437  sudo pip install pyqt5
+  438  ./hplip-3.20.11.run
+  439  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+  440  wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+  441  tar –xf Python-3.9.1.tgz
+  442  tar –xvf Python-3.9.1.tgz
+  443  tar -xf Python-3.9.1.tgz
+  444  cd Python-3.9.1
+  445  ./configure ––enable–optimizations
+  446  sudo make install
+  447  cd
+  448  sudo apt-get update -y
+  449  sudo apt-get install -y gr-hpsdr
+  450  gr-hpsdr 
+  451  sudo add-apt-repository ppa:gnuradio/gnuradio-master
+  452  sudo apt-get update && sudo apt-get upgrade
+  453  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  454  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  455  uname -msr
+  456  sudo apt install gnuradio
+  457  gr-hpsdr 
+  458  uhd_fft.py -a type=usrp1 -f 935M -s 2M
+  459  cd /usr/bin
+  460  uhd_fft.py -a type=usrp1 -f 935M -s 2M
+  461  cd
+  462  cd /usr/bin
+  463  pythong uhd_fft.py -a type=usrp1 -f 935M -s 2M
+  464  python3 uhd_fft.py -a type=usrp1 -f 935M -s 2M
+  465  python uhd_fft.py -a type=usrp1 -f 935M -s 2M
+  466  python uhd_fft.py 
+  467  ls
+  468  python uhd_fft -a type=usrp1 -f 935M -s 2M
+  469  python3 uhd_fft.py 
+  470  cd
+  471  uhd_fft --help
+  472  uhd_fft -a type=usrp1 -f 935M -s 2M
+  473  uhd_fft -a  -f 935M -s 2M
+  474  gqrx
+  475  sudo add-apt-repository ppa:gnuradio/gnuradio-releases
+  476  sudo apt-get update && sudo apt-get upgrade
+  477  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  478  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  479  uname -msr
+  480  sudo apt-get install gnuradio
+  481  gnuradio
+  482  sudo add-apt-repository ppa:gnuradio/gnuradio-releases
+  483  sudo apt-get install gnuradio
+  484  sudo apt install git cmake g++ libboost-all-dev libgmp-dev swig python3-numpy python3-mako python3-sphinx python3-lxml doxygen libfftw3-dev libsdl1.2-dev libgsl-dev libqwt-qt5-dev libqt5opengl5-dev python3-pyqt5 liblog4cpp5-dev libzmq3-dev python3-yaml python3-click python3-click-plugins python3-zmq python3-scipy python3-gi python3-gi-cairo gobject-introspection gir1.2-gtk-3.0
+  485  sudo addgroup usrp
+  486  sudo usermod -G usrp -a 
+  487  echo 'ACTION=="add", BUS=="usb", SYSFS{idVendor}=="fffe", SYSFS{idProduct}=="0002", GROUP:="usrp", MODE:="0660"' > tmpfile
+  488  sudo chown root.root tmpfile
+  489  sudo mv tmpfile /etc/udev/rules.d/10-usrp.rule
+  490  sudo apt-get update && sudo apt-get upgrade
+  491  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  492  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  493  uname -msr
+  494  grgsm_
+  495  darktab
+  496  darktab_
+  497  grgsm_scanner
+  498  sudo apt install grgsm_scanner
+  499  sudo apt install gr-gsm
+  500  sudo apt-get update && sudo apt-get upgrade
+  501  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  502  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  503  uname -msr
+  504  sudo apt-get update && sudo apt-get upgrade
+  505  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  506  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  507  uname -msr
+  508  netstat -a
+  509  sudo apt-get update && sudo apt-get upgrade
+  510  firefox -safe-mode
+  511  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  512  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  513  uname -msr
+  514  jupyter notebook
+  515  sudo cp -avr /media/pmtungwa/MyFlash(Mtungwa)/'Post-2018'/'Education-(MSc(Masters))'/. /home/pmtungwa/Desktop/'Education-(MSc(Masters))'/
+  516  sudo cp -avr /media/pmtungwa/'MyFlash(Mtungwa)'/'Post-2018'/'Education-(MSc(Masters))'/. /home/pmtungwa/Desktop/'Education-(MSc(Masters))'/
+  517  sudo apt-get update && sudo apt-get upgrade
+  518  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  519  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  520  uname -msr
+  521  firefox -safe-mode
+  522  jupyter notebook
+  523  ifconfig
+  524  firefox -safe-mode
+  525  jupyter notebook
+  526  ifconfig
+  527  sudo apt-get update && sudo apt-get upgrade
+  528  firefox -safe-mode
+  529  jupyter notebook
+  530  firefox -safe-mode
+  531  sudo apt-get update && sudo apt-get upgrade
+  532  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  533  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  534  uname -msr
+  535  firefox -safe-mode
+  536  jupyter notebook
+  537  firefox -safe-mode
+  538  jupyter notebook
+  539  firefox -safe-mode
+  540  jupyter notebook
+  541  firefox -safe-mode
+  542  jupyter notebook
+  543  firefox -safe-mode
+  544  jupyter notebook
+  545  firefox -safe-mode
+  546  sudo apt-get update && sudo apt-get upgrade
+  547  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  548  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  549  uname -msr
+  550  jupyter notebook
+  551  sudo apt-get update && sudo apt-get upgrade
+  552  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  553  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  554  uname -msr
+  555  firefox -safe-mode
+  556  jupyter notebook
+  557  firefox -safe-mode
+  558  jupyter notebook
+  559  firefox -safe-mode
+  560  jupyter notebook
+  561  firefox -safe-mode
+  562  jupyter notebook
+  563  firefox -safe-mode
+  564  jupyter notebook
+  565  sudo apt-get update && sudo apt-get upgrade
+  566  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  567  sudo apt-get autoremove
+  568  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  569  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  570  uname -msr
+  571  firefox -safe-mode
+  572  jupyter notebook
+  573  firefox -safe-mode
+  574  jupyter notebook
+  575  firefox -safe-mode
+  576  ifconfig
+  577  sudo apt-get update && sudo apt-get upgrade
+  578  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  579  sudo apt-get autoremove
+  580  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  581  jupyter notebook
+  582  sudo apt-get update && sudo apt-get upgrade
+  583  sudo apt-get autoremove
+  584  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  585  firefox -safe-mode
+  586  sudo pip3 install -U matplotlib jupyter pandas scikit-image jupyter  ggplot pandasql networkx  beautifulsoup4 networkx nltk gensim cufflinks setuptools cython fortran-magic fancyimpute imbalanced-learn scikit-learn xgboost mlens
+  587  pip3 install -U matplotlib jupyter pandas scikit-image jupyter  ggplot pandasql networkx  beautifulsoup4 networkx nltk gensim cufflinks setuptools cython fortran-magic fancyimpute imbalanced-learn scikit-learn xgboost mlens
+  588  jupyter notebook
+  589  sudo pip install --upgrade scikit-learn
+  590  sudo pip3 install --upgrade scikit-learn
+  591  sudo pip3 install --upgrade imbalanced-learn
+  592  firefox -safe-mode
+  593  jupyter notebook
+  594  jupyter notebook
+  595  firefox -safe-mode
+  596  jupyter notebook
+  597  ifconfig
+  598  firefox -safe-mode
+  599  jupyter notebook
+  600  firefox -safe-mode
+  601  jupyter notebook
+  602  sudo cp -avr /home/pmtungwa/Pictures/Baba/. /media/pmtungwa/MYVAULT-SD/Baba/
+  603  firefox -safe-mode
+  604  jupyter notebook
+  605  firefox -safe-mode
+  606  sudo apt-get-y update && sudo apt-get-y upgrade
+  607  4Mfecane$
+  608  sudo apt-get -y update && sudo apt-get -y upgrade
+  609  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  610  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  611  uname -msr
+  612  firefox -safe-mode
+  613  sudo apt-get -y update && sudo apt-get -y upgrade
+  614  sudo apt-get install ppa-purge
+  615  sudo ppa-purge ppa:gnuradio/gnuradio-releases/ubuntu 
+  616  sudo ppa-purge ppa:gnuradio/gnuradio-releases
+  617  sudo apt-get update && sudo apt-get upgrade
+  618  sudo apt-get --allow-releaseinfo-change update
+  619  sudo apt-get update && sudo apt-get upgrade
+  620  sudo apt-get -y update && sudo apt-get -y upgrade
+  621  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  622  sudo apt-get -y update && sudo apt-get -y upgrade
+  623  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  624  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  625  uname -msr
+  626  ifconfig
+  627  firefox -safe-mode
+  628  jupyter notebook
+  629  firefox -safe-mode
+  630  jupyter notebook
+  631  firefox -safe-mode
+  632  sudo apt-get -y update && sudo apt-get -y upgrade
+  633  firefox -safe-mode
+  634  jupyter notebook
+  635  firefox -safe-mode
+  636  jupyter notebook
+  637  dmesg
+  638  sudo dd if=/dev/zero of=/dev/sdb bs=1M count=1
+  639  cd /home/pmtungwa/Download
+  640  cd /home/pmtungwa/Downloads
+  641  ls
+  642  gzip -dc pfSense-CE-memstick-serial-2.5.1-RELEASE-amd64.img.gz | sudo dd of=/dev/sdb bs=1M
+  643  sync
+  644  firefox -safe-mode
+  645  jupyter notebook
+  646  ifconfig
+  647  jupyter notebook
+  648  firefox -safe-mode
+  649  jupyter notebook
+  650  firefox -safe-mode
+  651  sudo apt-get -y update && sudo apt-get -y upgrade
+  652  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  653  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  654  uname -msr
+  655  jupyter notebook
+  656  firefox -safe-mode
+  657  jupyter notebook
+  658  firefox -safe-mode
+  659  jupyter notebook
+  660  ifconfig
+  661  firefox -safe-mode
+  662  history > history-01stMay2021-install.txt
+  663  sudo cp -avr /home/pmtungwa/.  /media/pmtungwa/MyEVOVault1stF/home/pmtungwa/ 
+  664  sudo cp -avr /home/pmtungwa/.  /media/pmtungwa/MyEVOVault1st/home/pmtungwa/ 
+  665  sudo cp -avr /home/pmtungwa/.  /media/pmtungwa/MyEVOVault1st/home/pmtungwa
+  666  sudo cp -avr /home/pmtungwa/.  /media/pmtungwa/MyEVOVault1st/home/pmtungwa/
+  667  jupyter notebook
+  668  sudo apt-get -y update && sudo apt-get -y upgrade
+  669  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  670  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  671  uname -msr
+  672  firefox -safe-mode
+  673  jupyter notebook
+  674  firefox -safe-mode
+  675  jupyter notebook
+  676  firefox -safe-mode
+  677  jupyter notebook
+  678  ifconfig
+  679  ping 10.2.0.6
+  680  firefox -safe-mode
+  681  sudo apt-get -y update && sudo apt-get -y upgrade
+  682  ifconfig
+  683  firefox -safe-mode
+  684  jupyter notebook
+  685  firefox -safe-mode
+  686  firefox -safe-mode
+  687  jupyter notebook
+  688  firefox -safe-mode
+  689  jupyter notebook
+  690  sudo apt-get -y update && sudo apt-get -y upgrade
+  691  firefox -safe-mode
+  692  jupyter notebook
+  693  firefox -safe-mode
+  694  cd Downloads
+  695  ls
+  696  sh hplip-3.21.4.run
+  697  cd
+  698  sudo apt-get install python-pyqt5
+  699  sudo apt-get install python-dev
+  700  sudo apt-get install python-dev-is-python3
+  701  sudo apt-get install python-pyqt5
+  702  sudo apt-get install python3-pyqt5
+  703  sudo apt-get install python2-pyqt5
+  704  ping 10.2.0.2 
+  705  ping 10.2.0.15
+  706  ping 10.0.0.1
+  707  sudo apt-get install hplip hplip-plugins
+  708  sudo apt-get install hplip hplip-plugin
+  709  sudo apt-get install hplip
+  710  hplip
+  711  sudo apt-get install hplip
+  712  jupyter notebook
+  713  sudo apt-get update && sudo apt-get upgrade -y
+  714  ifconfig
+  715  ping 10.2.0.2
+  716  ping google.com
+  717  firefox -safe-mode
+  718  jupyter notebook
+  719  sudo sklearn pip install
+  720  sudo pip install -U scikit-learn
+  721  firefox -safe-mode
+  722  ifconfig
+  723  jupyter notebook
+  724  firefox -safe-mode
+  725  jupyter notebook
+  726  ifconfig
+  727  firefox -safe-mode
+  728  cd Downloads
+  729  ls
+  730  sh hplip-3.21.4.run
+  731  wget http://plugapps.com/os/pogoplug/uboot/nanddump
+  732  sudo cp -avr /home/pmtungwa/Downloads/CheckPoint/. /media/pmtungwa/MTUNGWA/CheckPoint/
+  733  wget https://github.com/pepaslabs/pogoplug_mobile_uboot_installer/blob/master/mirrored/download.qnology.com/pogoplug/v4/nanddump
+  734  cd /home/pmtungwa/Downloads/CheckPoint/kwboot-tool
+  735  ls
+  736  sudo chmod +x kwboot
+  737  ls
+  738  ./kwboot
+  739  cd
+  740  ./kwboot
+  741  /media/pmtungwa/MTUNGWA/CheckPoint/kwboot
+  742  cd/media/pmtungwa/MTUNGWA/CheckPoint
+  743  cd /media/pmtungwa/MTUNGWA/CheckPoint
+  744  ls
+  745  ./kwboot
+  746  chmod +x kwboot
+  747  ./kwboot
+  748  sudo ./kwboot
+  749  sudo chmod +x kwboot
+  750  ./kwboot
+  751  ls
+  752  sudo chmod +x kwboot
+  753  ./kwboot
+  754  firefox -safe-mode
+  755  jupyter notebook
+  756  firefox -safe-mode
+  757  ping 10.0.0.1
+  758  sudo apt-get update && sudo apt-get upgrade -y
+  759  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  760  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  761  uname -msr
+  762  sudo apt-get update && sudo apt-get upgrade -y
+  763  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  764  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  765  uname -msr
+  766  firefox -safe-mode
+  767  ifconfig
+  768  ping 10.0.0.1
+  769  ifconfig
+  770  ping 10.0.0.1
+  771  ping 10.0.0.1
+  772  ifconfig
+  773  jupyter notebook
+  774  ifconfig
+  775  ping 192.168.0.1
+  776  ping 192.168.0.2
+  777  ping 192.168.0.3
+  778  ping 192.168.0.4
+  779  ping 192.168.0.5
+  780  ping 192.168.0.
+  781  ping 192.168.0.10
+  782  ping 192.168.0.11
+  783  firefox -safe-mode
+  784  sudo add-apt-repository universe
+  785  sudo apt-get update && sudo apt-get upgrade -y
+  786  sudo apt install putty
+  787  ifconfig
+  788  ping 10.0.0.1
+  789  ifconfig
+  790  ping 10.0.0.1
+  791  ifconfig
+  792  ping 10.0.0.40
+  793  ping 192.168.0.11
+  794  ping 192.168.0.1
+  795  ping 192.168.0.2
+  796  ping 192.168.0.10
+  797  ping 192.168.0.3
+  798  ping 192.168.0.4
+  799  ping 192.168.0.141
+  800  ping 192.168.0.4
+  801  vino-preferences
+  802  ifconfig
+  803  sudo ufw allow from any to any port 3389 proto tcp
+  804  ifconfig
+  805  ifconfig
+  806  ping 10.0.0.13
+  807  ping 10.0.0.1
+  808  ping 192.168.0.142
+  809  hp-plugins
+  810  hp-plugin
+  811  sudo sh-hplip-3.21.4-plugin.run
+  812  wget https://developers.hp.com/sites/default/files/hplip-3.21.4-plugin.run
+  813  wget https://developers.hp.com/sites/default/files/hplip-3.21.4-plugin.run.asc
+  814  cd Downloads
+  815  ls
+  816  sudo sh hplip-3.21.4-plugin.run
+  817  wget https://developers.hp.com/sites/default/files/hplip-3.21.4-plugin.run.asc
+  818  wget https://developers.hp.com/sites/default/files/hplip-3.21.4-plugin.run
+  819  sudo sh hplip-3.21.4-plugin.run
+  820  ifconfig
+  821  arp -s 192.168.0.144 00:40:8C:50:11:EC 192.168.0.15
+  822  arp -s 192.168.0.144 00:40:8C:50:11:EC 
+  823  arp
+  824  arp 0:40:8C:50:11:EC  -s 192.168.0.144  
+  825  arp
+  826  arp 00:40:8C:50:11:EC  -s 192.168.0.144  
+  827  arp
+  828  ifconfig
+  829  arp -i enp0s31f6 00:40:8C:50:11:EC  -s 192.168.0.144  
+  830  arp
+  831  ping 192.168.0.144 -t
+  832  ping 192.168.0.144 
+  833  ping 192.168.0.4
+  834  ping 10.0.0.1 -t
+  835  ping 10.0.0.1
+  836  ifconfig
+  837  firefox -safe-mode
+  838  ping 10.0.0.40
+  839  ifocnfig
+  840  ifconfig
+  841  ping 10.0.0.40
+  842  ping 10.0.0.8
+  843  ping 10.0.0.40
+  844  jupyter notebook
+  845  sudo apt-get update && sudo apt-get upgrade -y
+  846  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  847  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  848  uname -msr
+  849  sudo apt-get update && sudo apt-get upgrade -y
+  850  firefox -safe-mode
+  851  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  852  dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+' | grep -Fv $(uname -r)
+  853  uname -msr
+  854  firefox -safe-mode
+  855  sudo apt-get install tmux -y
+  856  ping 10.2.0.15
+  857  ping 10.0.0.40
+  858  ping 10.2.0.15
+  859  ssh 10.2.0.15
+  860  ssh 10.0.0.40
+  861  ls -la .ssh
+  862  ssh-keygen -t ed25519 -C "pmtungwa default"
+  863  ls -la .ssh
+  864  cat .ssh/id_ed25519.pub
+  865  cat .ssh/id_ed25519
+  866  ssh-copy-id -i ~/.ssh/id_ed25519.pub 10.2.0.5
+  867  ssh-copy-id -i ~/.ssh/id_ed25519.pub 10.0.0.40
+  868  ssh 10.0.0.40
+  869  ssh-copy-id -i ~/.ssh/id_ed25519.pub 10.2.0.5
+  870  ssh-keygen -t ed25519 -C "ansible"
+  871  ssh-copy-id -i ~/.ssh/ansible.pub 10.0.0.40
+  872  ssh-copy-id -i ~/.ssh/ansible.pub 10.2.0.15
+  873  ssh-copy-id -i ~/.ssh/id_ed25519.pub 10.2.0.15
+  874  ssh 10.2.0.15
+  875  ssh -i .ssh/id_ed25519 10.2.0.15
+  876  ssh -i .ssh/id_ed25519 10.0.0.40
+  877  ssh 10.0.0.40
+  878  eval $(ssh-agent)
+  879  ssh-add
+  880  ps aux | grep 134122
+  881  ifconfig
+  882  which git
+  883  sudo apt-get update && sudo apt-get upgrade -y
+  884  sudo apt-get update --fix-missing
+  885  sudo apt-get update && sudo apt-get upgrade -y
+  886  sudo apt update
+  887  sudo apt-get autoremove && sudo apt-get -y clean && sudo apt-get -y clean
+  888  git
+  889  git clone git@github.com:Peter-Mtungwa/ansible_tutorial.git
+  890  ls
+  891  cd  ansible_tutorial
+  892  ls
+  893  cat README.md
+  894  git config --global user.name "Peter Mtungwa"
+  895  git config --global user.email "Peter.Mtungwa@GMail.com"
+  896  cat ~/.gitconfig
+  897  git status
+  898  nano README.md
+  899  git status
+  900  git diff README.md
+  901  git add README.md
+  902  git status
+  903  git commit -m "updated readme file, initial commit"
+  904  git push origin master
+  905  git status
+  906  git push origin master
+  907  git diff README.md
+  908  nano README.md
+  909  git status
+  910  git diff README.md
+  911  git add README.md
+  912  git status
+  913  git commit -m "updated readme file, initial commit"
+  914  git push origin master
+  915  nano README.md
+  916  git status
+  917  git diff README.md
+  918  git add README.md
+  919  git status
+  920  git commit -m "updated readme file, initial commit"
+  921  git push origin main
+  922  cd
+  923  sudo apt update
+  924  cd  ansible_tutorial
+  925  nano inventory
+  926  ls
+  927  git status
+  928  git add inventory
+  929  git status
+  930  git commit -m "first version of the inventory file, added two hosts"
+  931  git push origin main
+  932* ansible all --key-file ~/.
+  933  nano ansible.cfg
+  934  ls /etc/ansible
+  935  ansible all -m ping
+  936  ansible all --list-hosts
+  937  ansible all -m gather_facts
+  938  ansible all -m gather_facts --limit 10.2.0.15
+  939  ansible all -m gather_facts --limit 10.0.0.40
+  940  git status
+  941  git add ansible.cfg
+  942  git status
+  943  git commit -m "first version of ansible.cfg"
+  944  git push origin main
+  945  apt update
+  946  sudo apt update
+  947  ansible all -m apt -a update_cache=true --become --ask-become-pass
+  948  ansible all -m apt -a name=vim-nox --become --ask-become-pass
+  949  ansible all -m apt -a name=tmux --become --ask-become-pass
+  950  ansible all -m apt -a "name=fwupd state=latest" --become --ask-become-pass
+  951  ansible all -m apt -a "upgrade=dist" --become --ask-become-pass
+  952  nano install_apache.yml
+  953  ansible-playbook --ask-become-pass install_apache.yml
+  954  nano install_apache.yml
+  955  ansible-playbook --ask-become-pass install_apache.yml
+  956  git status
+  957  git add .
+  958  git status
+  959  git commit -m "Addea playbook for Apache"
+  960  git status
+  961  git push origin main
+  962  git status
+  963  git pull
+  964  nano install_apache.yml
+  965  ansible-playbook --ask-become-pass install_apache.yml
+  966  git status
+  967  git diff inventory
+  968  git add .
+  969  git status
+  970  git commit -m "Added playbook for Apache"
+  971  git status
+  972  git push origin main
+  973  git status
+  974  nano install_apache.yml
+  975  ansible-playbook --ask-become-pass install_apache.yml
+  976  git add .
+  977  git status
+  978  git push origin main
+  979  git status
+  980  git commit -m "Added playbook for Apache"
+  981  git status
+  982  git push origin main
+  983  git status
+  984  nano inventory
+  985  cp install_apache.yml site.yml
+  986  nano site.yml
+  987  nano inventory
+  988  git status
+  989  git add site.yml
+  990  git status
+  991  git commit -m "Added playbook for various packages to the site"
+  992  git push origin main
+  993  git status
+  994  git push origin main
+  995  ansible-playbook --ask-become-pass site.yml
+  996  git status
+  997  git push origin main
+  998  git status
+  999  git commit -m "Added playbook for various packages to the site"
+ 1000  git add .
+ 1001  git status
+ 1002  git push origin main
+ 1003  ansible-playbook --ask-become-pass site.yml
+ 1004  nano site.yml
+ 1005  git status
+ 1006  git add site.yml
+ 1007  git status
+ 1008  git commit -m "Added playbook for various packages to the site"
+ 1009  git status
+ 1010  git push origin main
+ 1011  git status
+ 1012  ansible-playbook --ask-become-pass site.yml
+ 1013  ansible-playbook --list-tags site.yml
+ 1014  ansible-playbook --tags ubuntu --ask-become-pass site.yml
+ 1015  ansible-playbook --tags "db,apache" --ask-become-pass site.yml
+ 1016  git status
+ 1017  git pull
+ 1018  cd
+ 1019  git status
+ 1020  cd
+ 1021  ssh -i ~/.ssh/ansible pmtungwa@10.0.0.40
+ 1022  history > history-20thAug2021-install.txt
+ 1023  cd  ansible_tutorial
+ 1024  git status
+ 1025  cp site.yml site_before _roles.yml
+ 1026  ls
+ 1027  cp site.yml site_before_roles.yml
+ 1028  ls
+ 1029  nano site.yml
+ 1030  mkdir roles
+ 1031  ls
+ 1032  cd..
+ 1033  cd
+ 1034  cd ~/ansible_tutorial/roles
+ 1035  ls
+ 1036  cd base
+ 1037  ls
+ 1038  cd ..
+ 1039  nano  main.yml
+ 1040  cd ..
+ 1041  ls
+ 1042  cd roles
+ 1043  ls -l
+ 1044  cd ..
+ 1045  ls
+ 1046  mv file_servers roles/file_servers
+ 1047  ls
+ 1048  cat .ssh/id_ed25519
+ 1049  cat ~/.ssh/id_ed25519.pub 
+ 1050  ls
+ 1051  cd workstations
+ 1052  cd roles
+ 1053  cd workstations
+ 1054  ls
+ 1055  cd workstations
+ 1056  ls
+ 1057  cd tasks
+ 1058  ls
+ 1059  cd ..
+ 1060  ls
+ 1061  mv tasks ~/ansible_tutorial/roles/workstations/
+ 1062  cd ..
+ 1063  ls
+ 1064  cd workstations
+ 1065  ls
+ 1066  cd ..
+ 1067  ls
+ 1068  rm -rf workstations
+ 1069  ls
+ 1070  cd tasks
+ 1071  ls
+ 1072  cd ~/ansible_tutorial/roles/
+ 1073  ls
+ 1074  cd db_servers
+ 1075  ls
+ 1076  cd db_servers
+ 1077  ls
+ 1078  cd ..
+ 1079  cd..
+ 1080  cd ..
+ 1081  cd file_servers
+ 1082  mv ~/ansible_tutorial/roles/file_servers/file_servers/tasks ~/ansible_tutorial/roles/db_servers/
+ 1083  cd ..
+ 1084  cd file_servers
+ 1085  mv ~/ansible_tutorial/roles/file_servers/file_servers/tasks ~/ansible_tutorial/roles/file_servers/
+ 1086  cd ..
+ 1087  ls
+ 1088  cd web_servers
+ 1089  mv ~/ansible_tutorial/roles/web_servers/web_servers/tasks ~/ansible_tutorial/roles/web_servers/
+ 1090  cd ..
+ 1091  ls
+ 1092  cd tasks
+ 1093  ls
+ 1094  cd ..
+ 1095  ls
+ 1096  cd base
+ 1097  ls
+ 1098  cd ..
+ 1099  cd db_servers
+ 1100  ls
+ 1101  cd ..
+ 1102  cd db_servers
+ 1103  mv ~/ansible_tutorial/roles/db_servers/db_servers/tasks ~/ansible_tutorial/roles/db_servers/
+ 1104  cd db_servers
+ 1105  ls
+ 1106  rcd ..
+ 1107  cd ..
+ 1108  ls
+ 1109  rm -rf db_servers
+ 1110  ls
+ 1111  cd ..
+ 1112  ls
+ 1113  cd base
+ 1114  ls
+ 1115  cd ..
+ 1116  cd file_servers
+ 1117  ls
+ 1118  cd ..
+ 1119  rm -rf file_servers
+ 1120  ls
+ 1121  cd tascd base
+ 1122  cd  base
+ 1123  ls
+ 1124  cd tasks
+ 1125  ls
+ 1126  cd ..
+ 1127  cd db_servers
+ 1128  ls
+ 1129  cd tasks
+ 1130  ls
+ 1131  cd ..
+ 1132  ls
+ 1133  cd web_servers
+ 1134  ls
+ 1135  rm -rf web_servers
+ 1136  ls
+ 1137  cd tasks
+ 1138  ls
+ 1139  cd ..
+ 1140  cd workstations
+ 1141  ls
+ 1142  cd tasks
+ 1143  ls
+ 1144  cd 
+ 1145  cd ~/ansible_tutorial/roles/
+ 1146  ls
+ 1147  mkdir file_servers
+ 1148  cd file_servers
+ 1149  mkdir tasks
+ 1150  nano main.yml
+ 1151  cd ..
+ 1152  cd roles
+ 1153  cd base
+ 1154  ls
+ 1155  cd tasks
+ 1156  cd ..
+ 1157  cd db_servers
+ 1158  ls
+ 1159  cd ..
+ 1160  cd web_servers
+ 1161  ls
+ 1162  cd ..
+ 1163  cd workstations
+ 1164  ls
+ 1165  cd tasks
+ 1166  ls
+ 1167  cd,,
+ 1168  cd ..
+ 1169  ls ~/ansible_tutorial/roles/base/tasks/
+ 1170  cd ~/ansible_tutorial/roles/base/tasks/
+ 1171  ls
+ 1172  cd 
+ 1173  cd ~/ansible_tutorial/roles/
+ 1174  ls ~/ansible_tutorial/roles/web_servers/tasks/
+ 1175  ls ~/ansible_tutorial/roles/base/tasks/
+ 1176  ls ~/ansible_tutorial/roles/db_servers/tasks/
+ 1177  ls ~/ansible_tutorial/roles/file_servers/tasks/
+ 1178  ls ~/ansible_tutorial/roles/web_servers/tasks/
+ 1179  ls ~/ansible_tutorial/roles/workstations/tasks/
+ 1180  ls
+ 1181  cd ..
+ 1182  nano ~/ansible_tutorial/roles/file_servers/tasks/main.yml
+ 1183  nano ~/ansible_tutorial/roles/base/tasks/main.yml
+ 1184  nano ~/ansible_tutorial/roles/db_servers/tasks/main.yml
+ 1185  nano ~/ansible_tutorial/roles/file_servers/tasks/main.yml
+ 1186  nano ~/ansible_tutorial/roles/web_servers/tasks/main.yml
+ 1187  nano ~/ansible_tutorial/roles/workstations/tasks/main.yml
+ 1188  nano ~/ansible_tutorial/roles/base/tasks/main.yml
+ 1189  cd ..
+ 1190  ansible-playbook site.yml
+ 1191  git status
+ 1192  git add .
+ 1193  git status
+ 1194  git commit -m "Updated files and folders"
+ 1195  git push origin main
+ 1196  git status
+ 1197  ansible-playbook site.yml
+ 1198  ls
+ 1199  nano site_before_roles.yml
+ 1200  nano site.yml
+ 1201  nano inventory
+ 1202  ls
+ 1203  ls -l
+ 1204  ansible-playbook --ask-become-pass site.yml
+ 1205  nano ~/ansible_tutorial/roles/web_servers/tasks/main.yml
+ 1206  git status
+ 1207  git push origin main
+ 1208  git add .
+ 1209  nsible-playbook --list-tags site.yml
+ 1210  ansible-playbook --list-tags site.yml
+ 1211  ls
+ 1212  cd roles/web_servers
+ 1213  ls
+ 1214  mkdir files
+ 1215  ls
+ 1216  cd ..
+ 1217  nano ~/ansible_tutorial/roles/web_servers/tasks/main.yml
+ 1218  git status
+ 1219  git add .
+ 1220  git status
+ 1221  git push origin main
+ 1222  ansible-playbook --ask-become-pass site.yml
+ 1223  cd ..
+ 1224  ansible-playbook --ask-become-pass site.yml
+ 1225  ls
+ 1226  nano site.yml
+ 1227  nano ~/ansible_tutorial/roles/workstations/tasks/main.yml
+ 1228  ansible-playbook --ask-become-pass site.yml
+ 1229  git status
+ 1230  git add .
+ 1231  git status
+ 1232  git push origin main
+ 1233  history > history-20thAug2021a-install.txt
