@@ -1,0 +1,6 @@
+- name: define Ubuntu-specific package names and configurations.
+  common_packages:
+    - curl
+    - git
+    - build-essential
+  ntp_service: systemd-timesyncd

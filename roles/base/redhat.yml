@@ -1,0 +1,6 @@
+- name: define Fedora-specific package names and configurations
+  common_packages:
+    - curl
+    - git
+    - development-tools
+  ntp_service: chronyd
