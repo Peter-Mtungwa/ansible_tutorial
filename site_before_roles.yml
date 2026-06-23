@@ -11,13 +11,19 @@
       update_cache: yes
     when: ansible_distribution == "CentOS"
 
+  - name: install updates (Fedora)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Fedora"
+
   - name: install updates (Ubuntu)
     tags: always
     apt:
       upgrade: dist
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
-
 
 - hosts: web_servers
   become: true
