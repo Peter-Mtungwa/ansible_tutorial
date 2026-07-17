@@ -1,0 +1,6 @@
+# FreeBSD NTP Config
+driftfile /var/db/ntpd.drift
+pool 0.freebsd.pool.ntp.org iburst
+restrict default kod nomodify nopeer noquery notrap
+restrict 127.0.0.1
+restrict ::1

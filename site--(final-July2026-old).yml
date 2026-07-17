@@ -1,5 +1,5 @@
 ---
-- name: Advanced Multi-OS System Update and Log Engine Pivot
+- name: Advanced Cross-Platform System Update and Engine Pivot
   hosts: all:!syslog_server
   become: yes
   vars:
@@ -10,10 +10,10 @@
     syslog_server_ip: "10.0.0.92"
 
   tasks:
-    # ----------------------------------------------------
-    # 1. Network Connectivity Pre-Flight Check
-    # ----------------------------------------------------
-    - name: Install netcat for network validation on Linux targets
+    # ====================================================
+    # 1. Pre-Flight Connectivity Health Checks
+    # ====================================================
+    - name: Install netcat for network verification on Linux targets
       ansible.builtin.package:
         name: nc
         state: present
@@ -30,10 +30,11 @@
       changed_when: false
       register: udp_health_check
       failed_when: udp_health_check.rc != 0
+      # OpenBSD natively includes nc; no additional package setup required.
 
-    # ----------------------------------------------------
-    # 2. Package Database Upgrades and Smart Reboots
-    # ----------------------------------------------------
+    # ====================================================
+    # 2. OS Updates and Conditional Reboots
+    # ====================================================
     - name: Update Ubuntu/Debian packages
       ansible.builtin.apt:
         upgrade: dist
@@ -48,7 +49,7 @@
 
     - name: Reboot Ubuntu if required
       ansible.builtin.reboot:
-        msg: "Rebooting Ubuntu due to package upgrades"
+        msg: "Rebooting Ubuntu due to kernel/package updates"
       when: ansible_distribution == 'Ubuntu' and ubuntu_reboot_file.stat.exists
 
     - name: Update Fedora packages
@@ -58,7 +59,7 @@
       register: dnf_update_result
       when: ansible_distribution == 'Fedora'
 
-    - name: Reboot Fedora if critical systems modified
+    - name: Reboot Fedora if kernel/systemd updated
       ansible.builtin.reboot:
         msg: "Rebooting Fedora due to critical package updates"
       when: >
@@ -78,9 +79,9 @@
         state: latest
       when: ansible_distribution == 'OpenBSD'
 
-    # ----------------------------------------------------
-    # 3. Deploy Common Core and Active Logging Engines
-    # ----------------------------------------------------
+    # ====================================================
+    # 3. Install Common Packages & Syslog-ng Engines
+    # ====================================================
     - name: Install core packages on Linux targets
       ansible.builtin.package:
         name: "{{ common_packages + ['syslog-ng'] }}"
@@ -99,16 +100,17 @@
         state: present
       when: ansible_distribution == 'OpenBSD'
 
-    - name: Stop native logging engines to clear deployment space
+    # Disable default system logging engines to clear execution runpaths
+    - name: Disable conflicting native logging services
       ansible.builtin.service:
         name: "{{ 'rsyslog' if ansible_os_family in ['Debian', 'RedHat'] else 'syslogd' }}"
         state: stopped
         enabled: no
       failed_when: false
 
-    # ----------------------------------------------------
-    # 4. Synchronized NTP Infrastructure Templates
-    # ----------------------------------------------------
+    # ====================================================
+    # 4. NTP Templates and Service Configuration
+    # ====================================================
     - name: Deploy Ubuntu NTP configuration
       ansible.builtin.template:
         src: ntp_templates/ubuntu.conf.j2
@@ -125,11 +127,11 @@
       when: ansible_distribution == 'Fedora'
       notify: Restart Fedora Chrony
 
-    - name: Ensure NTP is running on FreeBSD
-      ansible.builtin.service:   # <-- Changed from community.general.service
-        name: ntpd
-        state: started
-        enabled: yes
+    - name: Deploy FreeBSD NTP configuration
+      ansible.builtin.template:
+        src: ntp_templates/freebsd.conf.j2
+        dest: /etc/ntp.conf
+        mode: '0644'
       when: ansible_distribution == 'FreeBSD'
       notify: Restart FreeBSD NTP
 
@@ -141,29 +143,32 @@
       when: ansible_distribution == 'OpenBSD'
       notify: Restart OpenBSD NTP
 
-    - name: Ensure accurate NTP tracking status
+    - name: Ensure NTP service states
       ansible.builtin.service:
         name: "{{ 'ntp' if ansible_distribution == 'Ubuntu' else 'chronyd' if ansible_distribution == 'Fedora' else 'ntpd' }}"
         state: started
         enabled: yes
 
-    # ----------------------------------------------------
-    # 5. Targeted Severity Syslog-ng Injections
-    # ----------------------------------------------------
-    - name: Inject unified remote syslog-ng config
+    # ====================================================
+    # 5. Syslog-ng Client Pivots (Restricted Rules)
+    # ====================================================
+    - name: Inject unified syslog-ng forwarding configuration
       ansible.builtin.blockinfile:
         path: "{{ '/etc/syslog-ng/syslog-ng.conf' if ansible_os_family in ['Debian', 'RedHat'] else '/usr/local/etc/syslog-ng.conf' }}"
         marker: "# {mark} ANSIBLE REMOTE FORWARDING"
         create: yes
         block: |
+          # Define filters based on specific requirements
           filter f_restricted_traffic {
               facility(auth, authpriv) or level(err..emerg);
           };
 
+          # Define output target configuration
           destination d_remote_collector {
               network("{{ syslog_server_ip }}" port(514) transport("udp"));
           };
 
+          # Route standard structural streams
           log {
               source({{ 's_sys' if ansible_distribution == 'Fedora' else 's_src' if ansible_os_family == 'Debian' else 'src' if ansible_distribution == 'FreeBSD' else 'local' }});
               filter(f_restricted_traffic);
@@ -171,15 +176,15 @@
           };
       notify: Reload Syslog-ng Engines
 
-    - name: Run client syslog-ng engines
+    - name: Activate and Enable Syslog-ng Client Runtime
       ansible.builtin.service:
         name: syslog-ng
         state: started
         enabled: yes
 
-    # ----------------------------------------------------
-    # 6. Comprehensive Multi-OS Firewalls
-    # ----------------------------------------------------
+    # ====================================================
+    # 6. Consolidated Network Firewall Configuration
+    # ====================================================
     - name: Allow SSH on Ubuntu via UFW
       community.general.ufw:
         rule: allow
@@ -245,6 +250,9 @@
       when: ansible_distribution == 'OpenBSD'
       notify: Reload PF Firewall
 
+  # ====================================================
+  # Handlers
+  # ====================================================
   handlers:
     - name: Restart Ubuntu NTP
       ansible.builtin.service:
@@ -257,7 +265,7 @@
         state: restarted
 
     - name: Restart FreeBSD NTP
-      ansible.builtin.service:   # <-- Changed from community.general.service
+      community.general.service:
         name: ntpd
         state: restarted
 

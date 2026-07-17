@@ -1,0 +1,22 @@
+---
+- name: Verify Gmail SMTP Configuration via Native Engine
+  hosts: syslog_server
+  become: yes
+  vars:
+    gmail_account: "familyofmtungwa@gmail.com"
+    # PASTE YOUR 16-CHARACTER GMAIL APP PASSWORD HERE (Ensure NO spaces)
+    gmail_app_password: "lgyupvelejflpcjh"
+
+  tasks:
+    - name: Send a native verification alert email via Gmail SMTP
+      community.general.mail:
+        host: smtp.gmail.com
+        port: 587
+        secure: starttls
+        username: "{{ gmail_account }}"
+        password: "{{ gmail_app_password }}"
+        to: "{{ gmail_account }}"
+        from: "{{ gmail_account }}"
+        subject: "[TEST ALERT] Ansible Engine Connection Successful"
+        body: "This is a clean test email sent directly through Ansible's internal connection suite to verify that the familyofmtungwa@gmail.com App Password works."
+      delegate_to: localhost

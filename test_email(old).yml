@@ -1,0 +1,53 @@
+---
+- name: Verify Gmail SMTP Configuration and App Password
+  hosts: syslog_server
+  become: yes
+  vars:
+    # Gmail Configuration Details
+    gmail_account: "familyofmtungwa@gmail.com"
+    # PASTE YOUR 16-CHARACTER GMAIL APP PASSWORD HERE (No spaces)
+    gmail_app_password: "lgyupvelejflpcjh"
+
+  tasks:
+    # ====================================================
+    # 1. Install & Configure Lightweight Mail Relay
+    # ====================================================
+    - name: Ensure msmtp and mailx are installed
+      ansible.builtin.package:
+        name:
+          - msmtp
+          - msmtp-mta
+          - bsd-mailx
+        state: present
+
+    - name: Configure msmtp globally for Gmail authentication
+      ansible.builtin.blockinfile:
+        path: /etc/msmtprc
+        create: yes
+        owner: root
+        group: root
+        mode: '0600'
+        block: |
+          defaults
+          auth           on
+          tls            on
+          tls_trust_file /etc/ssl/certs/ca-certificates.crt
+          logfile        /var/log/msmtp.log
+
+          account        gmail
+          host           ://gmail.com
+          port           587
+          from           {{ gmail_account }}
+          user           {{ gmail_account }}
+          password       {{ gmail_app_password }}
+
+          account default : gmail
+
+    # ====================================================
+    # 2. Fire Test Email Delivery Task
+    # ====================================================
+    - name: Send mock emergency log alert email
+      ansible.builtin.shell: |
+        echo "This is a mock log alert sent from your Ansible testing playbook to verify that the familyofmtungwa@gmail.com relay connection functions properly." | \
+        mail -s "[TEST ALERT] Ansible Mail Server Verification Successful" {{ gmail_account }}
+      changed_when: true

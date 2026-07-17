@@ -1,0 +1,4 @@
+Execution Steps
+Save this code block as test_email.yml.
+Run it via your terminal: ansible-playbook -i inventory.ini test_email.yml.
+Check your familyofmtungwa@gmail.com inbox (including your spam folder, just in case) for the test subject message.

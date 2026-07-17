@@ -1,0 +1,31 @@
+---
+- name: Verify Gmail SMTP Configuration via Clean Template
+  hosts: syslog_server
+  become: yes
+  vars:
+    gmail_account: "familyofmtungwa@gmail.com"
+    # Ensure there are absolutely no spaces here
+    gmail_app_password: "lgyupvelejflpcjh"
+
+  tasks:
+    - name: Ensure msmtp and mailx are installed
+      ansible.builtin.package:
+        name:
+          - msmtp
+          - msmtp-mta
+          - bsd-mailx
+        state: present
+
+    - name: Deploy msmtp configuration using template file
+      ansible.builtin.template:
+        src: msmtprc.j2
+        dest: /etc/msmtprc
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Send mock emergency log alert email
+      ansible.builtin.shell: |
+        echo "This is a mock log alert sent from your Ansible testing playbook to verify that the familyofmtungwa@gmail.com relay connection functions properly." | \
+        mail -s "[TEST ALERT] Ansible Mail Server Verification Successful" {{ gmail_account }}
+      changed_when: true

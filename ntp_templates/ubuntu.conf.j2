@@ -1,0 +1,7 @@
+# Ubuntu NTP Config
+driftfile /var/lib/ntp/ntp.drift
+pool ://ubuntu.com iburst
+restrict -4 default kod notrap nomodify nopeer noquery limited
+restrict -6 default kod notrap nomodify nopeer noquery limited
+restrict 127.0.0.1
+restrict ::1

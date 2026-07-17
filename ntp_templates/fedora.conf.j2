@@ -1,0 +1,8 @@
+# Fedora Chrony Config
+pool 2.fedora.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+keyfile /etc/chrony.keys
+ntsdumpdir /var/lib/chrony
+logdir /var/log/chrony

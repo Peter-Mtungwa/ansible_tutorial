@@ -1,0 +1,91 @@
+---
+- name: Configure High-Performance Syslog-ng Logging Server
+  hosts: syslog_server
+  become: yes
+  tasks:
+    # ====================================================
+    # 1. Install and Configure Syslog-ng Receiver
+    # ====================================================
+    - name: Install syslog-ng on receiver server
+      ansible.builtin.package:
+        name: syslog-ng
+        state: present
+
+    - name: Ensure native rsyslog is stopped/disabled to prevent port conflicts
+      ansible.builtin.service:
+        name: rsyslog
+        state: stopped
+        enabled: no
+      failed_when: false
+
+    - name: Configure syslog-ng engine for unified data reception
+      ansible.builtin.blockinfile:
+        path: /etc/syslog-ng/syslog-ng.conf
+        marker: "# {mark} ANSIBLE MANAGED RECEIVER BLOCK"
+        block: |
+          source s_remote_udp {
+              network(ip(0.0.0.0) port(514) transport("udp"));
+          };
+
+          destination d_client_logs {
+              file("/var/log/remote/${HOST}/${YEAR}-${MONTH}-${DAY}.log" create-dirs(yes));
+          };
+
+          log {
+              source(s_remote_udp);
+              destination(d_client_logs);
+          };
+      notify: Restart Syslog-ng Server
+
+    - name: Ensure syslog-ng service is active and enabled
+      ansible.builtin.service:
+        name: syslog-ng
+        state: started
+        enabled: yes
+
+    # ====================================================
+    # 2. Storage Defense & Log Rotation
+    # ====================================================
+    - name: Implement logrotate configuration for dynamic remote archives
+      ansible.builtin.blockinfile:
+        path: /etc/logrotate.d/remote-syslog-ng
+        create: yes
+        owner: root
+        group: root
+        mode: '0644'
+        block: |
+          /var/log/remote/*/*.log {
+              daily
+              rotate 14
+              missingok
+              notifempty
+              compress
+              sharedscripts
+              postrotate
+                  /usr/sbin/syslog-ng-ctl reload > /dev/null 2>&1 || true
+              endscript
+          }
+
+    # ====================================================
+    # 3. Network Ingest Firewall Rules
+    # ====================================================
+    - name: Open UDP Port 514 in UFW (Ubuntu/Debian)
+      community.general.ufw:
+        rule: allow
+        port: '514'
+        proto: udp
+      when: ansible_os_family == 'Debian'
+
+    - name: Open UDP Port 514 in Firewalld (Fedora/RedHat)
+      ansible.posix.firewalld:
+        port: 514/udp
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_os_family == 'RedHat'
+
+  handlers:
+    - name: Restart Syslog-ng Server
+      ansible.builtin.service:
+        name: syslog-ng
+        state: restarted

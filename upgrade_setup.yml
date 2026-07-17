@@ -1,0 +1,33 @@
+- name: Enable Unattended Upgrades
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure unattended-upgrades is installed
+      ansible.builtin.apt:
+        name: unattended-upgrades
+        state: present
+        update_cache: yes
+
+    - name: Create 20auto-upgrades configuration
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/20auto-upgrades
+        content: |
+          APT::Periodic::Update-Package-Lists "1";
+          APT::Periodic::Unattended-Upgrade "1";
+
+    - name: Create 50unattended-upgrades configuration
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        content: |
+          Unattended-Upgrade::Allowed-Origins {
+              "${distro_id}:${distro_codename}-security";
+              // "${distro_id}:${distro_codename}-updates";
+          };
+          Unattended-Upgrade::Automatic-Reboot "false";
+
+    - name: Enable and start unattended-upgrades service
+      ansible.builtin.systemd:
+        name: unattended-upgrades
+        state: started
+        enabled: yes
+

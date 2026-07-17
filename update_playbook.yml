@@ -1,0 +1,90 @@
+---
+- name: Cross-Platform System Update and Configuration
+  hosts: all
+  become: yes
+  vars:
+    # Packages you want universally installed (e.g., git, curl)
+    common_packages:
+      - git
+      - curl
+      - vim
+
+  tasks:
+    # ----------------------------------------------------
+    # 1. OS Updates
+    # ----------------------------------------------------
+    - name: Update Ubuntu/Debian packages
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Update Fedora packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'Fedora'
+
+    - name: Update FreeBSD packages and database
+      community.general.pkgng:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'FreeBSD'
+
+    - name: Update OpenBSD packages
+      community.general.openbsd_pkg:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'OpenBSD'
+
+    # ----------------------------------------------------
+    # 2. Install Common Packages
+    # ----------------------------------------------------
+    - name: Install common packages on Linux targets
+      ansible.builtin.package:
+        name: "{{ common_packages }}"
+        state: present
+      when: ansible_os_family in ['Debian', 'RedHat']
+
+    - name: Install common packages on FreeBSD
+      community.general.pkgng:
+        name: "{{ common_packages }}"
+        state: present
+      when: ansible_distribution == 'FreeBSD'
+
+    - name: Install common packages on OpenBSD
+      community.general.openbsd_pkg:
+        name: "{{ common_packages }}"
+        state: present
+      when: ansible_distribution == 'OpenBSD'
+
+    # ----------------------------------------------------
+    # 3. Ensure NTP Service is Running
+    # ----------------------------------------------------
+    - name: Ensure NTP is running on Ubuntu
+      ansible.builtin.service:
+        name: ntp
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Ensure NTP is running on Fedora
+      ansible.builtin.service:
+        name: chronyd
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'Fedora'
+
+    - name: Ensure NTP is running on FreeBSD
+      community.general.service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'FreeBSD'
+
+    - name: Ensure NTP is running on OpenBSD
+      ansible.builtin.service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'OpenBSD'

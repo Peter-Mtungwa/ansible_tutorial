@@ -1,0 +1,185 @@
+---
+- name: Configure High-Performance Syslog-ng Logging Server with Gmail Alerts
+  hosts: syslog_server
+  become: yes
+  vars:
+    # Gmail Configuration Details
+    gmail_account: "familyofmtungwa@gmail.com"
+    # PASTE YOUR 16-CHARACTER GMAIL APP PASSWORD HERE (No spaces)
+    gmail_app_password: "lgyupvelejflpcjh"
+    
+    # Storage Configuration
+    orphan_cutoff_days: 30
+
+  tasks:
+    # ====================================================
+    # 1. Install & Configure Lightweight Gmail Mail Relay
+    # ====================================================
+    - name: Install msmtp and mailx packages for SMTP relay
+      ansible.builtin.package:
+        name:
+          - msmtp
+          - msmtp-mta
+          - bsd-mailx
+        state: present
+
+    - name: Configure msmtp globally for Gmail authentication
+      ansible.builtin.blockinfile:
+        path: /etc/msmtprc
+        create: yes
+        owner: root
+        group: root
+        mode: '0600'
+        block: |
+          defaults
+          auth           on
+          tls            on
+          tls_trust_file /etc/ssl/certs/ca-certificates.crt
+          logfile        /var/log/msmtp.log
+
+          account        gmail
+          host           smtp.gmail.com
+          port           587
+          from           {{ gmail_account }}
+          user           {{ gmail_account }}
+          password       {{ gmail_app_password }}
+
+          account default : gmail
+
+    # ====================================================
+    # 2. Configure Syslog-ng Receiver & Email Action Hooks
+    # ====================================================
+    - name: Install syslog-ng on receiver server
+      ansible.builtin.package:
+        name: syslog-ng
+        state: present
+
+    - name: Ensure native rsyslog is stopped to prevent conflicts
+      ansible.builtin.service:
+        name: rsyslog
+        state: stopped
+        enabled: no
+      failed_when: false
+
+    - name: Configure syslog-ng engine with dynamic email triggers
+      ansible.builtin.blockinfile:
+        path: /etc/syslog-ng/syslog-ng.conf
+        marker: "# {mark} ANSIBLE MANAGED RECEIVER BLOCK"
+        block: |
+          # 1. Network Log Source Ingestion
+          source s_remote_udp {
+              network(ip(0.0.0.0) port(514) transport("udp"));
+          };
+
+          # 2. Local File Storage Destination
+          destination d_client_logs {
+              file("/var/log/remote/${HOST}/${YEAR}-${MONTH}-${DAY}.log" create-dirs(yes));
+          };
+
+          # 3. Dynamic Email Pipeline Destination
+          destination d_email_alert {
+              program("/usr/bin/mail -s '[CRITICAL LOG ALERT] Emergency caught from ${HOST}' {{ gmail_account }}");
+          };
+
+          # 4. Filters
+          filter f_emergency_only { level(emerg); };
+
+          # 5. Routing Execution Flow
+          log {
+              source(s_remote_udp);
+              destination(d_client_logs);
+          };
+
+          log {
+              source(s_remote_udp);
+              filter(f_emergency_only);
+              destination(d_email_alert);
+          };
+      notify: Restart Syslog-ng Server
+
+    - name: Ensure syslog-ng service is active and enabled
+      ansible.builtin.service:
+        name: syslog-ng
+        state: started
+        enabled: yes
+
+    # ====================================================
+    # 3. Storage Defense & Log Rotation
+    # ====================================================
+    - name: Implement logrotate configuration for dynamic remote archives
+      ansible.builtin.blockinfile:
+        path: /etc/logrotate.d/remote-syslog-ng
+        create: yes
+        owner: root
+        group: root
+        mode: '0644'
+        block: |
+          /var/log/remote/*/*.log {
+              daily
+              rotate 14
+              missingok
+              notifempty
+              compress
+              sharedscripts
+              postrotate
+                  /usr/sbin/syslog-ng-ctl reload > /dev/null 2>&1 || true
+              endscript
+          }
+
+    # ====================================================
+    # 4. Automated Orphaned Client Directory Cleanup
+    # ====================================================
+    - name: Deploy orphan client cleanup maintenance script
+      ansible.builtin.copy:
+        dest: /usr/local/bin/syslog_clean_orphans.sh
+        owner: root
+        group: root
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          TARGET_DIR="/var/log/remote"
+          CUTOFF_DAYS={{ orphan_cutoff_days }}
+
+          if [ ! -d "$TARGET_DIR" ]; then
+              exit 0
+          fi
+
+          # Find directories where no logs have been modified within the cutoff period
+          find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d | while read -r host_dir; do
+              recent_files=$(find "$host_dir" -type f -mtime -"$CUTOFF_DAYS" | wc -l)
+              
+              if [ "$recent_files" -eq 0 ]; then
+                  echo "Removing decommissioned host directory: $host_dir"
+                  rm -rf "$host_dir"
+              fi
+          done
+
+    - name: Create weekly cron task to execute orphan cleanup script
+      ansible.builtin.cron:
+        name: "Purge orphaned client syslog folders"
+        special_time: weekly
+        job: "/usr/local/bin/syslog_clean_orphans.sh > /dev/null 2>&1"
+
+    # ====================================================
+    # 5. Network Ingest Firewall Rules
+    # ====================================================
+    - name: Open UDP Port 514 in UFW (Ubuntu/Debian)
+      community.general.ufw:
+        rule: allow
+        port: '514'
+        proto: udp
+      when: ansible_os_family == 'Debian'
+
+    - name: Open UDP Port 514 in Firewalld (Fedora/RedHat)
+      ansible.posix.firewalld:
+        port: 514/udp
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_os_family == 'RedHat'
+
+  handlers:
+    - name: Restart Syslog-ng Server
+      ansible.builtin.service:
+        name: syslog-ng
+        state: restarted

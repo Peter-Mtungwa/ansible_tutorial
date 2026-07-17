@@ -1,0 +1,51 @@
+---
+- name: Configure Centralized Syslog Receiver Server
+  hosts: syslog_server # Ensure this host points to 10.0.0.92 in your inventory
+  become: yes
+  tasks:
+    # ----------------------------------------------------
+    # 1. Install & Configure Rsyslog Receiver
+    # ----------------------------------------------------
+    - name: Ensure rsyslog is installed
+      ansible.builtin.package:
+        name: rsyslog
+        state: present
+
+    - name: Configure rsyslog to receive UDP logs and create dynamic files
+      ansible.builtin.blockinfile:
+        path: /etc/rsyslog.conf
+        insertbefore: "#"
+        marker: "# {mark} ANSIBLE MANAGED RECEIVER BLOCK"
+        block: |
+          # Provide UDP syslog reception
+          module(load="imudp")
+          input(type="imudp" port="514")
+
+          # Dynamic storage template: organizes logs by client hostname and current date
+          template(name="DynamicLogs" type="string" string="/var/log/remote/%HOSTNAME%/%$YEAR%-%$MONTH%-%$DAY%.log")
+          *.* ?DynamicLogs
+      notify: Restart Rsyslog Server
+
+    # ----------------------------------------------------
+    # 2. Firewall Management on Receiver
+    # ----------------------------------------------------
+    - name: Open UDP Port 514 in UFW (If Ubuntu/Debian Receiver)
+      community.general.ufw:
+        rule: allow
+        port: '514'
+        proto: udp
+      when: ansible_os_family == 'Debian'
+
+    - name: Open UDP Port 514 in Firewalld (If Fedora/RedHat Receiver)
+      ansible.posix.firewalld:
+        port: 514/udp
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_os_family == 'RedHat'
+
+  handlers:
+    - name: Restart Rsyslog Server
+      ansible.builtin.service:
+        name: rsyslog
+        state: restarted

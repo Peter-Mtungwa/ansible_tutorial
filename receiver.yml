@@ -1,0 +1,154 @@
+---
+- name: Unified Production High-Performance Log Server
+  hosts: syslog_server
+  become: yes
+  vars:
+    gmail_account: "familyofmtungwa@gmail.com"
+    # Ensure your 16-character Google App Password is inserted here (no spaces)
+    gmail_app_password: "abcdefghijklmnop"
+    orphan_cutoff_days: 30
+
+  tasks:
+    # ----------------------------------------------------
+    # 1. Establish Secure msmtp Mail Relay Engine
+    # ----------------------------------------------------
+    - name: Install system dependencies for mail relay
+      ansible.builtin.package:
+        name:
+          - msmtp
+          - msmtp-mta
+          - bsd-mailx
+        state: present
+
+    - name: Deploy optimized msmtp configuration
+      ansible.builtin.template:
+        src: msmtprc.j2
+        dest: /etc/msmtprc
+        owner: root
+        group: root
+        mode: '0600'
+
+    # ----------------------------------------------------
+    # 2. Syslog-ng Receiver Platform Configuration
+    # ----------------------------------------------------
+    - name: Install syslog-ng on receiver server
+      ansible.builtin.package:
+        name: syslog-ng
+        state: present
+
+    - name: Disable native rsyslog engine to clean runpaths
+      ansible.builtin.service:
+        name: rsyslog
+        state: stopped
+        enabled: no
+      failed_when: false
+
+    - name: Deploy centralized syslog-ng routing config
+      ansible.builtin.blockinfile:
+        path: /etc/syslog-ng/syslog-ng.conf
+        marker: "# {mark} ANSIBLE MANAGED RECEIVER BLOCK"
+        block: |
+          source s_remote_udp {
+              network(ip(0.0.0.0) port(514) transport("udp"));
+          };
+
+          destination d_client_logs {
+              file("/var/log/remote/${HOST}/${YEAR}-${MONTH}-${DAY}.log" create-dirs(yes));
+          };
+
+          destination d_email_alert {
+              program("/usr/bin/mail -s '[CRITICAL SYSTEM ALERT] Emergency caught from ${HOST}' {{ gmail_account }}");
+          };
+
+          filter f_emergency_only { level(emerg); };
+
+          log {
+              source(s_remote_udp);
+              destination(d_client_logs);
+          };
+
+          log {
+              source(s_remote_udp);
+              filter(f_emergency_only);
+              destination(d_email_alert);
+          };
+      notify: Restart Syslog-ng Server
+
+    - name: Ensure syslog-ng service is active and enabled
+      ansible.builtin.service:
+        name: syslog-ng
+        state: started
+        enabled: yes
+
+    # ----------------------------------------------------
+    # 3. Log Rotation & Structural Maintenance
+    # ----------------------------------------------------
+    - name: Implement daily logrotate policies for clients
+      ansible.builtin.blockinfile:
+        path: /etc/logrotate.d/remote-syslog-ng
+        create: yes
+        owner: root
+        group: root
+        mode: '0644'
+        block: |
+          /var/log/remote/*/*.log {
+              daily
+              rotate 14
+              missingok
+              notifempty
+              compress
+              sharedscripts
+              postrotate
+                  /usr/sbin/syslog-ng-ctl reload > /dev/null 2>&1 || true
+              endscript
+          }
+
+    - name: Deploy orphan client cleanup maintenance script
+      ansible.builtin.copy:
+        dest: /usr/local/bin/syslog_clean_orphans.sh
+        owner: root
+        group: root
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          TARGET_DIR="/var/log/remote"
+          CUTOFF_DAYS={{ orphan_cutoff_days }}
+          if [ ! -d "$TARGET_DIR" ]; then exit 0; fi
+
+          find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d | while read -r host_dir; do
+              recent_files=$(find "$host_dir" -type f -mtime -"$CUTOFF_DAYS" | wc -l)
+              if [ "$recent_files" -eq 0 ]; then
+                  echo "Purging stale client log directory: $host_dir"
+                  rm -rf "$host_dir"
+              fi
+          done
+
+    - name: Create weekly cron task to execute orphan cleanup script
+      ansible.builtin.cron:
+        name: "Purge orphaned client syslog folders"
+        special_time: weekly
+        job: "/usr/local/bin/syslog_clean_orphans.sh > /dev/null 2>&1"
+
+    # ----------------------------------------------------
+    # 4. Inbound Firewall Rules
+    # ----------------------------------------------------
+    - name: Open UDP Port 514 in UFW (Ubuntu/Debian)
+      community.general.ufw:
+        rule: allow
+        port: '514'
+        proto: udp
+      when: ansible_os_family == 'Debian'
+
+    - name: Open UDP Port 514 in Firewalld (Fedora/RedHat)
+      ansible.posix.firewalld:
+        port: 514/udp
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_os_family == 'RedHat'
+
+  handlers:
+    - name: Restart Syslog-ng Server
+      ansible.builtin.service:
+        name: syslog-ng
+        state: restarted
