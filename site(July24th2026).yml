@@ -1,0 +1,422 @@
+---
+- name: Advanced Multi-OS System Update and Log Engine Pivot
+  hosts: all:!syslog_server
+  become: yes
+  vars:
+    common_packages:
+      - git
+      - curl
+      - vim
+    syslog_server_ip: "10.0.0.92"
+
+  tasks:
+    # ----------------------------------------------------
+    # 1. Network Connectivity Pre-Flight Check
+    # ----------------------------------------------------
+    - name: Install netcat for network validation on Linux targets
+      ansible.builtin.package:
+        name: "{{ 'netcat-openbsd' if ansible_facts['os_family'] == 'Debian' else 'nmap-ncat' }}"
+        state: present
+      when: ansible_facts['os_family'] in ['Debian', 'RedHat']
+
+    - name: Install netcat for network verification on FreeBSD
+      community.general.pkgng:
+        name: netcat
+        state: present
+      when: ansible_facts['distribution'] == 'FreeBSD'
+
+    - name: Verify UDP Port 514 connectivity to receiver
+      ansible.builtin.command: "nc -z -u -w 3 {{ syslog_server_ip }} 514"
+      changed_when: false
+      register: udp_health_check
+      failed_when: udp_health_check.rc != 0
+
+    # ----------------------------------------------------
+    # 2. Package Database Upgrades and Smart Reboots
+    # ----------------------------------------------------
+    - name: Update Ubuntu/Debian packages
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_facts['distribution'] == 'Debian'
+
+    - name: Check if Ubuntu reboot is required
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: ubuntu_reboot_file
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Reboot Ubuntu if required
+      ansible.builtin.reboot:
+        msg: "Rebooting Ubuntu due to package upgrades"
+      when: ansible_facts['distribution'] == 'Ubuntu' and ubuntu_reboot_file.stat.exists
+
+    - name: Update Fedora packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      register: dnf_update_result
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Reboot Fedora if critical systems modified
+      ansible.builtin.reboot:
+        msg: "Rebooting Fedora due to critical package updates"
+      when: >
+        ansible_facts['distribution'] == 'Fedora' and 
+        dnf_update_result.changed and 
+        ('kernel' in dnf_update_result.results or 'systemd' in dnf_update_result.results)
+
+    - name: Update FreeBSD packages and database
+      community.general.pkgng:
+        name: "*"
+        state: latest
+      when: ansible_facts['distribution'] == 'FreeBSD'
+
+    - name: Update OpenBSD packages
+      community.general.openbsd_pkg:
+        name: "*"
+        state: latest
+      when: ansible_facts['distribution'] == 'OpenBSD' 
+
+    # ----------------------------------------------------
+    # 3. Deploy Common Core and Active Logging Engines
+    # ----------------------------------------------------
+#    - name: Fix EOL Ubuntu repositories on target nodes
+#      ansible.builtin.copy:
+#        dest: /etc/apt/sources.list
+#        content: |
+#          deb http://ubuntu.com {{ ansible_facts['distribution_release'] }} main restricted universe multiverse
+#          deb http://ubuntu.com {{ ansible_facts['distribution_release'] }}-updates main restricted universe multiverse
+#          deb http://ubuntu.com {{ ansible_facts['distribution_release'] }}-security main restricted universe multiverse
+#        owner: root
+#        group: root
+#        mode: '0644'
+#      when: ansible_facts['distribution'] == 'Ubuntu'
+#      ignore_errors: yes
+
+#    - name: Remove broken custom repository list directory files
+#      ansible.builtin.file:
+#        path: /etc/apt/sources.list.d/
+#        state: absent
+#      when: ansible_facts['distribution'] == 'Ubuntu'
+
+#    - name: Obliterate the modern deb822 core source configuration file
+#      ansible.builtin.file:
+#        path: /etc/apt/sources.list.d/ubuntu.sources
+#        state: absent
+#      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Flush corrupt cache data files
+      ansible.builtin.file:
+        path: /var/lib/apt/lists/
+        state: absent
+      when: ansible_facts['distribution_release'] == 'resolute'
+
+#    - name: Recreate pristine configuration folder layout
+#      ansible.builtin.file:
+#        path: /etc/apt/sources.list.d/
+#        state: directory
+#        owner: root
+#        group: root
+#        mode: '0755'
+#      when: ansible_facts['distribution'] == 'Ubuntu'
+
+#    - name: Nuke all existing repository files entirely
+#      ansible.builtin.shell: "rm -f /etc/apt/sources.list && rm -rf /etc/apt/sources.list.d/*"
+#      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Fix and update official repositories for 26.04 Resolute nodes
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list
+        content: |
+          deb http://ubuntu.com resolute main restricted universe multiverse
+          deb http://ubuntu.com resolute-updates main restricted universe multiverse
+          deb http://ubuntu.com resolute-security main restricted universe multiverse
+        owner: root
+        group: root
+        mode: '0644'
+      when: ansible_facts['distribution_release'] == 'resolute'
+
+    - name: Deep purge local cache tracking states
+      ansible.builtin.shell: "rm -rf /var/lib/apt/lists/* && apt-get clean"
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Recreate partial download cache subdirectory
+      ansible.builtin.file:
+        path: /var/lib/apt/lists/partial
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Correct traditional sources.list strings
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: 'http://ubuntu\.com(?!/ubuntu)'
+        replace: 'http://ubuntu.com'
+      when: ansible_facts['distribution_release'] == 'resolute'
+
+    - name: Correct modern DEB822 sources format strings if present
+      ansible.builtin.stat:
+        path: /etc/apt/sources.list.d/ubuntu.sources
+      register: ubuntu_sources_file
+      when: ansible_facts['distribution_release'] == 'resolute'
+
+    - name: Correct modern DEB822 Ubuntu sources if present
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list.d/ubuntu.sources
+        regexp: 'http://ubuntu\.com(?!/ubuntu)'
+        replace: 'http://ubuntu.com'
+      when:
+        - ansible_facts['distribution_release'] == 'resolute'
+        - ubuntu_sources_file.stat.exists
+
+    - name: Wipe broken local APT lists completely
+      ansible.builtin.file:
+        path: /var/lib/apt/lists/
+        state: "{{ item }}"
+      loop:
+        - absent
+        - directory
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Install core packages on Linux targets
+      ansible.builtin.apt:
+        name:
+          - git
+          - curl
+          - vim
+          - htop
+          - syslog-ng
+        state: present
+        update_cache: yes
+        force_apt_get: yes
+#        sources_per_line:
+#          - "deb http://ubuntu.com {{ ansible_facts['distribution_release'] }} main restricted universe multiverse"
+#          - "deb http://ubuntu.com {{ ansible_facts['distribution_release'] }}-updates main restricted universe multiverse"
+#          - "deb http://ubuntu.com {{ ansible_facts['distribution_release'] }}-security main restricted universe multiverse"
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Install core packages on RedHat/CentOS targets
+      ansible.builtin.dnf:
+        name:
+          - git
+          - curl
+          - vim
+          - htop
+          - syslog-ng
+        state: present
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'RedHat'
+      
+    - name: Install core packages on Linux targets
+      ansible.builtin.package:
+        name: "{{ common_packages + ['syslog-ng'] }}"
+        state: present
+        update_cache: yes 
+      when: ansible_facts['os_family'] in ['Debian', 'RedHat']
+
+    - name: Install core packages on FreeBSD
+      community.general.pkgng:
+        name: "{{ common_packages + ['syslog-ng'] }}"
+        state: present
+      when: ansible_facts['distribution'] == 'FreeBSD'
+
+    - name: Install core packages on OpenBSD
+      community.general.openbsd_pkg:
+        name: "{{ common_packages + ['syslog-ng'] }}"
+        state: present
+      when: ansible_facts['distribution'] == 'OpenBSD'
+
+    - name: Stop native logging engines to clear deployment space
+      ansible.builtin.service:
+        name: "{{ 'rsyslog' if ansible_facts['os_family'] in ['Debian', 'RedHat'] else 'syslogd' }}"
+        state: stopped
+        enabled: no
+      failed_when: false
+
+    # ----------------------------------------------------
+    # 4. Synchronized NTP Infrastructure Templates
+    # ----------------------------------------------------
+    - name: Deploy Ubuntu NTP configuration
+      ansible.builtin.template:
+        src: ntp_templates/ubuntu.conf.j2
+        dest: /etc/ntp.conf
+        mode: '0644'
+      when: ansible_facts['distribution'] == 'Ubuntu'
+      notify: Restart Ubuntu NTP
+
+    - name: Deploy Fedora Chrony configuration
+      ansible.builtin.template:
+        src: ntp_templates/fedora.conf.j2
+        dest: /etc/chrony.conf
+        mode: '0644'
+      when: ansible_facts['distribution'] == 'Fedora'
+      notify: Restart Fedora Chrony
+
+    - name: Ensure NTP is running on FreeBSD
+      ansible.builtin.service:   # <-- Changed from community.general.service
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == 'FreeBSD'
+      notify: Restart FreeBSD NTP
+
+    - name: Deploy OpenBSD OpenNTPD configuration
+      ansible.builtin.template:
+        src: ntp_templates/openbsd.conf.j2
+        dest: /etc/ntpd.conf
+        mode: '0644'
+      when: ansible_facts['distribution'] == 'OpenBSD'
+      notify: Restart OpenBSD NTP
+
+    - name: Ensure accurate NTP tracking status (Ubuntu/Debian)
+      ansible.builtin.service:
+        name: systemd-timesyncd
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Ensure accurate NTP tracking status (Fedora/RHEL)
+      ansible.builtin.service:
+        name: chronyd
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Ensure accurate NTP tracking status (FreeBSD)
+      ansible.builtin.service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == 'FreeBSD'
+      notify: Restart FreeBSD NTP
+
+    # ----------------------------------------------------
+    # 5. Targeted Severity Syslog-ng Injections
+    # ----------------------------------------------------
+    - name: Inject unified remote syslog-ng config
+      ansible.builtin.blockinfile:
+        path: "{{ '/etc/syslog-ng/syslog-ng.conf' if ansible_facts['os_family'] in ['Debian', 'RedHat'] else '/usr/local/etc/syslog-ng.conf' }}"
+        marker: "# {mark} ANSIBLE REMOTE FORWARDING"
+        create: yes
+        block: |
+          filter f_restricted_traffic {
+              facility(auth, authpriv) or level(err..emerg);
+          };
+
+          destination d_remote_collector {
+              network("{{ syslog_server_ip }}" port(514) transport("udp"));
+          };
+
+          log {
+              source({{ 's_sys' if ansible_facts['distribution'] == 'Fedora' else 's_src' if ansible_os_family == 'Debian' else 'src' if ansible_facts['distribution'] == 'FreeBSD' else 'local' }});
+              filter(f_restricted_traffic);
+              destination(d_remote_collector);
+          };
+      notify: Reload Syslog-ng Engines
+
+    - name: Run client syslog-ng engines
+      ansible.builtin.service:
+        name: syslog-ng
+        state: started
+        enabled: yes
+
+    # ----------------------------------------------------
+    # 6. Comprehensive Multi-OS Firewalls
+    # ----------------------------------------------------
+    - name: Allow SSH on Ubuntu via UFW
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Enable UFW with default deny incoming on Ubuntu
+      community.general.ufw:
+        state: enabled
+        direction: incoming
+        default: deny
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Ensure firewalld package is present on Fedora
+      ansible.builtin.dnf:
+        name: firewalld
+        state: present
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Ensure firewalld service is active on Fedora
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Allow SSH on Fedora via Firewalld
+      ansible.posix.firewalld:
+        service: ssh
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Configure basic pf rules for FreeBSD/OpenBSD
+      ansible.builtin.blockinfile:
+        path: /etc/pf.conf
+        create: yes
+        owner: root
+        group: wheel
+        mode: '0600'
+        block: |
+          set skip on lo0
+          block in all
+          pass out all keep state
+          pass in proto tcp to any port ssh keep state
+          pass in proto udp to any port ntp keep state
+      when: ansible_facts['distribution'] in ['FreeBSD', 'OpenBSD']
+      notify: Reload PF Firewall
+
+    - name: Ensure PF Firewall is enabled on FreeBSD
+      community.general.sysrc:
+        name: pf_enable
+        value: "YES"
+      when: ansible_facts['distribution'] == 'FreeBSD'
+      notify: Reload PF Firewall
+
+    - name: Ensure PF Firewall is enabled on OpenBSD
+      ansible.builtin.lineinfile:
+        path: /etc/rc.conf.local
+        line: 'pf=YES'
+        create: yes
+      when: ansible_facts['distribution'] == 'OpenBSD'
+      notify: Reload PF Firewall
+
+  handlers:
+    - name: Restart Ubuntu NTP
+      ansible.builtin.service:
+        name: ntp
+        state: restarted
+
+    - name: Restart Fedora Chrony
+      ansible.builtin.service:
+        name: chronyd
+        state: restarted
+
+    - name: Restart FreeBSD NTP
+      ansible.builtin.service:   # <-- Changed from community.general.service
+        name: ntpd
+        state: restarted
+
+    - name: Restart OpenBSD NTP
+      ansible.builtin.service:
+        name: ntpd
+        state: restarted
+
+    - name: Reload Syslog-ng Engines
+      ansible.builtin.service:
+        name: syslog-ng
+        state: reloaded
+
+    - name: Reload PF Firewall
+      ansible.builtin.command: pfctl -f /etc/pf.conf
+      failed_when: false
